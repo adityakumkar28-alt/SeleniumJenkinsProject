@@ -4,13 +4,15 @@ from selenium.webdriver.common.by import By
 
 @pytest.fixture
 def driver():
-    # Setup: Initialize Chrome and maximize window
-    driver = webdriver.Chrome()
+    # Tell Chrome to run invisibly so Jenkins doesn't crash!
+    options = webdriver.ChromeOptions()
+    options.add_argument('--headless')
+    
+    driver = webdriver.Chrome(options=options)
     driver.maximize_window()
     
-    yield driver  # Provide driver to the tests
+    yield driver
     
-    # Teardown: Close the browser after the test completes
     driver.quit()
 
 def test_valid_login(driver):
