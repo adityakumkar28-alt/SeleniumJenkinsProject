@@ -11,15 +11,15 @@ pipeline {
   
         stage('Install Dependencies') { 
             steps { 
-                bat 'python -m pip install -r requirements.txt' 
+                bat '"C:\\Users\\fe\\AppData\\Local\\Python\\bin\\python.exe" -m pip install -r requirements.txt' 
             } 
         } 
   
         stage('Run Selenium Tests') { 
             steps { 
-                bat 'python -m pytest -v --html=report.html --self-contained-html' 
+                bat '"C:\\Users\\fe\\AppData\\Local\\Python\\bin\\python.exe" -m pytest -v --html=report.html --self-contained-html' 
             } 
-        } 
+        }
     } 
   
     post { 
