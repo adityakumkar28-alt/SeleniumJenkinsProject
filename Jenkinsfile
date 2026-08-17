@@ -3,7 +3,6 @@ pipeline {
     stages { 
         stage('Checkout') { 
             steps { 
-                // We will update this URL in the next step!
                 git branch: 'main', 
                     url: 'https://github.com/adityakumkar28-alt/SeleniumJenkinsProject.git' 
             } 
@@ -17,15 +16,16 @@ pipeline {
   
         stage('Run Selenium Tests') { 
             steps { 
-                bat '"C:\\Users\\fe\\AppData\\Local\\Python\\bin\\python.exe" -m pytest -v --html=report.html --self-contained-html' 
+                // Changed from --html to --alluredir to collect data for the dashboard
+                bat '"C:\\Users\\fe\\AppData\\Local\\Python\\bin\\python.exe" -m pytest -v --alluredir=allure-results' 
             } 
         }
     } 
   
     post { 
         always { 
-            archiveArtifacts artifacts: 'report.html', 
-                             allowEmptyArchive: true 
+            // Tells Jenkins to compile the data into the animated Allure UI
+            allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
         } 
         success { 
             echo 'Selenium tests completed successfully.' 
